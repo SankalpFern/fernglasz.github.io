@@ -17,8 +17,15 @@
 	<script>
 		document.addEventListener('click', function(event) {
 		  if (event.target.tagName === 'A' && event.target.href) {
-			const path = new URL(event.target.href).pathname;
-			window.parent.postMessage({ path: path }, 'https://www.alphantech.fyi');
+			const link = new URL(event.target.href);
+			
+			// Check if the link is internal (same origin as the current page)
+			if (link.origin === 'https://marketing.alphantech.fyi') {
+			  event.preventDefault(); // Prevent default navigation
+			  const path = link.pathname + link.search + link.hash;
+			  window.parent.postMessage({ path: path }, 'https://www.alphantech.fyi');
+			}
+			// For external links, do nothing and let the default behavior handle it
 		  }
 		});
 		</script>
