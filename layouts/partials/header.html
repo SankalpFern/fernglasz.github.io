@@ -15,19 +15,18 @@
 	{{ end -}}
 
 	<script>
-		document.addEventListener('click', function(event) {
-		  if (event.target.tagName === 'A' && event.target.href) {
-			const link = new URL(event.target.href);
-			
-			// Check if the link is internal (same origin as the current page)
-			if (link.origin === window.location.origin) {
-			  event.preventDefault(); // Prevent default navigation
-			  const path = link.pathname + link.search + link.hash;
-			  window.parent.postMessage({ path: path }, 'https://www.alphantech.fyi');
+		if (window.self !== window.top) {  // Check if we're in an iframe
+		  document.addEventListener('click', function(event) {
+			if (event.target.tagName === 'A' && event.target.href) {
+			  const link = new URL(event.target.href);
+			  if (link.origin === window.location.origin) {
+				event.preventDefault();
+				const path = link.pathname + link.search + link.hash;
+				window.parent.postMessage({ path: path }, 'https://www.alphantech.fyi');
+			  }
 			}
-			// For external links, do nothing and let the default behavior handle it
-		  }
-		});
+		  });
+		}
 		</script>
 </head>
 
