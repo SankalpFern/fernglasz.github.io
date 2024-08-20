@@ -14,6 +14,15 @@
 		{{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
 	{{ end -}}
 
+	<script>
+		document.addEventListener('click', function(event) {
+			if (event.target.tagName === 'A' && event.target.href) {
+				const path = new URL(event.target.href).pathname;
+				window.parent.postMessage({ path: path }, 'https://www.alphantech.fyi');
+			}
+		});
+		</script>
+
 </head>
 
 <body>
