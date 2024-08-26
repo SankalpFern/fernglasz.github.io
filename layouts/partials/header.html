@@ -18,7 +18,7 @@
 		if (window.self !== window.top) {  // Check if we're in an iframe
 		  document.addEventListener('click', function(event) {
 			if (event.target.tagName === 'A' && event.target.href) {
-			  event.preventDefault(); // Prevent default navigation
+			//   event.preventDefault(); // Prevent default navigation
 			  const link = new URL(event.target.href);
 		
 			  if (link.origin === window.location.origin) {
@@ -27,6 +27,7 @@
 				window.parent.postMessage({ type: 'navigation', path: path }, 'https://www.alphantech.fyi');
 			  } else {
 				// External link
+				event.preventDefault();
 				window.parent.postMessage({ type: 'externalNavigation', url: event.target.href }, 'https://www.alphantech.fyi');
 			  }
 			}
